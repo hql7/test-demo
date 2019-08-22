@@ -71,6 +71,7 @@
       </p>
       <div class="align-center">
         <wlVueSelect
+          v-show="select_mode == 'default'"
           class="wl-vue-select"
           v-model="select_value"
           :props="select_props"
@@ -78,6 +79,14 @@
           multiple
           default-select
         ></wlVueSelect>
+        <wlTreeSelect
+          v-show="select_mode == 'tree'"
+          class="wl-vue-select"
+          checkbox
+          width="240"
+          :data="treeData"
+          :selected="selected"
+        ></wlTreeSelect>
       </div>
     </el-dialog>
     <!-- 地址 -->
@@ -89,7 +98,11 @@
         >
       </p>
       <div class="align-center">
-        <wlAddress class="my-wl-address" :type="address_mode" :address.sync="address_data"></wlAddress>
+        <wlAddress
+          class="my-wl-address"
+          :type="address_mode"
+          :address.sync="address_data"
+        ></wlAddress>
       </div>
     </el-dialog>
   </div>
@@ -106,7 +119,7 @@ export default {
         transfer: false,
         grid: false,
         select: false,
-        address: false,
+        address: false
       },
       mode: "transfer", // transfer addressList
       fromData: [
@@ -297,12 +310,37 @@ export default {
           name: "古城"
         }
       ], // 数据
+      treeData: [
+        {
+          id: "love",
+          name: "所有和你走过的风光",
+          children: [
+            {
+              id: 1,
+              name: "海边"
+            },
+            {
+              id: 2,
+              name: "森林"
+            },
+            {
+              id: 3,
+              name: "草原"
+            },
+            {
+              id: 4,
+              name: "古城"
+            }
+          ]
+        }
+      ],
+      selected: ["1"], // 树下拉框选中数据
       select_props: {
         label: "name",
         value: "id"
       }, // 配置
       address_mode: "default", // default普通 cascader级联
-      address_data: "", // 选中地址
+      address_data: "" // 选中地址
     };
   },
   methods: {
@@ -328,7 +366,7 @@ export default {
     },
     // 切换模式 现有树形穿梭框模式transfer 和通讯录模式addressList
     changeMode() {
-      this.mode = this.mode == "transfer" ? 'addressList' : "transfer";
+      this.mode = this.mode == "transfer" ? "addressList" : "transfer";
     },
     // 添加按钮
     add(fromData, toData, obj) {
@@ -389,12 +427,13 @@ export default {
       console.log(val);
     },
     // 切换下拉框模式
-    changeSelectMode(){
-      this.select_mode = this.select_mode == "default" ? 'tree' : "default";      
+    changeSelectMode() {
+      this.select_mode = this.select_mode == "default" ? "tree" : "default";
     },
     // 切换地址组件模式
-    changeAddressMode(){
-      this.address_mode = this.address_mode == "default" ? 'cascader' : "default";            
+    changeAddressMode() {
+      this.address_mode =
+        this.address_mode == "default" ? "cascader" : "default";
     }
   },
   computed: {
@@ -460,7 +499,7 @@ export default {
   font-weight: 600;
 }
 
-.wl-vue-select{
+.wl-vue-select {
   margin-top: 100px;
 }
 
