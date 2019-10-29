@@ -85,7 +85,8 @@
           checkbox
           width="240"
           :data="treeData"
-          :selected="selected"
+          @change="hindleChanged"
+          v-model="selected"
         ></wlTreeSelect>
       </div>
     </el-dialog>
@@ -430,10 +431,16 @@ export default {
     changeSelectMode() {
       this.select_mode = this.select_mode == "default" ? "tree" : "default";
     },
+    // 下拉框选中
+    hindleChanged(val){
+      console.log(val,2)
+      console.log(this.selected)
+    },
     // 切换地址组件模式
     changeAddressMode() {
-      this.address_mode =
-        this.address_mode == "default" ? "cascader" : "default";
+      this.address_mode = this.address_mode == "default" 
+        ? "cascader" 
+        : "default";
     }
   },
   computed: {

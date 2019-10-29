@@ -14,7 +14,7 @@
     "vue": "^2.6.10",
     "wl-address": "^0.2.1",
     "wl-tree-table": "^0.1.7",
-    "wl-vue-select": "^0.2.3"
+    "wl-vue-select": "^0.3.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
