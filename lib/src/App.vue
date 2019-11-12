@@ -6,6 +6,7 @@
     <!-- 插件列表 -->
     <div class="item-box">
       <el-button @click="layout.transfer = true">树形穿梭框</el-button>
+      <el-button @click="toExplorer">文件管理器</el-button>
       <el-button @click="layout.grid = true">树形表格</el-button>
       <el-button @click="layout.select = true">树形下拉框</el-button>
       <el-button @click="layout.address = true">省市县三级联动</el-button>
@@ -441,6 +442,9 @@ export default {
       this.address_mode = this.address_mode == "default" 
         ? "cascader" 
         : "default";
+    },
+    toExplorer(){
+      window.location.href = "/wl-explorer/index.html"
     }
   },
   computed: {
