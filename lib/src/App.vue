@@ -444,7 +444,7 @@ export default {
         : "default";
     },
     toExplorer(){
-      window.location.href = "/wl-explorer/index.html"
+      window.location.href = "./wl-explorer/index.html"
     }
   },
   computed: {
