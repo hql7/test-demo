@@ -441,7 +441,7 @@ export default {
     changeAddressMode() {
       this.address_mode = this.address_mode == "default" 
         ? "cascader" 
-        : "default";
+        : "default"; 
     },
     toExplorer(){
       window.location.href = "./wl-explorer/index.html"
