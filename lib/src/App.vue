@@ -11,6 +11,9 @@
       <el-button @click="layout.select = true">树形下拉框</el-button>
       <el-button @click="layout.address = true">省市县三级联动</el-button>
     </div>
+    <div class="item-box">
+      <el-button @click="layout.gantt = true">Gantt甘特图</el-button>
+    </div>
     <!-- 插件展示区 -->
     <!-- 穿梭框 -->
     <el-dialog title="树形穿梭框" :visible.sync="layout.transfer">
@@ -18,9 +21,7 @@
       <!--lazy :lazy-fn="lazyFn"-->
       <h4>
         <label>请打开f12查看移动数据 &nbsp;&nbsp;</label>
-        <el-button size="medium" type="info" @click="changeMode"
-          >当前模式：{{ mode }}</el-button
-        >
+        <el-button size="medium" type="info" @click="changeMode">当前模式：{{ mode }}</el-button>
       </h4>
       <div class="box">
         <!-- <tree-transfer :from_data='fromData' :to_data='toData' :defaultProps="{label:'label'}" @addBtn='add' @removeBtn='remove' :render-content="renderContent" lazy :lazy-fn="lazyFn"> -->
@@ -39,12 +40,7 @@
           @right-check-change="rightCheckChange"
           filter
         >
-          <span
-            slot="title-right"
-            class="my-title-right"
-            @click="handleTitleRight"
-            >自定义内容</span
-          >
+          <span slot="title-right" class="my-title-right" @click="handleTitleRight">自定义内容</span>
         </tree-transfer>
       </div>
     </el-dialog>
@@ -66,9 +62,7 @@
     <el-dialog title="下拉框" :visible.sync="layout.select" fullscreen>
       <p class="msg">
         在el-select基础上扩展全选功能；另：树形下拉框模式
-        <el-button size="medium" type="info" @click="changeSelectMode"
-          >当前模式：{{ select_mode }}</el-button
-        >
+        <el-button size="medium" type="info" @click="changeSelectMode">当前模式：{{ select_mode }}</el-button>
       </p>
       <div class="align-center">
         <wlVueSelect
@@ -95,16 +89,17 @@
     <el-dialog title="省市县地址联动" :visible.sync="layout.address" fullscreen>
       <p class="msg">
         模式：三个下拉框联动模式；一个下拉框级联模式；
-        <el-button size="medium" type="info" @click="changeAddressMode"
-          >当前模式：{{ address_mode }}</el-button
-        >
+        <el-button size="medium" type="info" @click="changeAddressMode">当前模式：{{ address_mode }}</el-button>
       </p>
       <div class="align-center">
-        <wlAddress
-          class="my-wl-address"
-          :type="address_mode"
-          :address.sync="address_data"
-        ></wlAddress>
+        <wlAddress class="my-wl-address" :type="address_mode" :address.sync="address_data"></wlAddress>
+      </div>
+    </el-dialog>
+    <!-- 甘特图 -->
+    <el-dialog title="Gantt甘特图" :visible.sync="layout.gantt" fullscreen>
+      <p class="msg">甘特图、任务管理器、project</p>
+      <div class="align-center">
+        <wlGantt :data="gantt_data" start-date="2019-9-02" end-date="2020-11-24" @timeChange="timeChange"></wlGantt>
       </div>
     </el-dialog>
   </div>
@@ -121,7 +116,8 @@ export default {
         transfer: false,
         grid: false,
         select: false,
-        address: false
+        address: false,
+        gantt: false
       },
       mode: "transfer", // transfer addressList
       fromData: [
@@ -342,7 +338,70 @@ export default {
         value: "id"
       }, // 配置
       address_mode: "default", // default普通 cascader级联
-      address_data: "" // 选中地址
+      address_data: "", // 选中地址
+      gantt_data:[
+        {
+          id: 1,
+          pid: 0,
+          name: "旅行",
+          startDate: "2019-09-07",
+          endDate: "2019-09-09",
+          children: [
+            {
+              id: "1-1",
+              pid: 1,
+              name: "云台之间",
+              pre: "1-1-1",
+              startDate: "2019-09-01",
+              endDate: "2019-09-09",
+              children: [
+                {
+                  id: "1-1-1",
+                  pid: "1-1",
+                  name: "日落云巅",
+                  startDate: "2019-09-01",
+                  endDate: "2019-09-09"
+                }
+              ]
+            },
+            {
+              id: "1-2",
+              pid: 1,
+              pre: "1-1-1",
+              name: "天空之镜",
+              startDate: "2019-09-08",
+              endDate: "2019-10-02"
+            },
+            {
+              id: "1-3",
+              name: "蓬莱之岛",
+              pid: 1,
+              startDate: "2019-10-20",
+              endDate: "2019-11-10"
+            },
+            {
+              id: "1-4",
+              pid: 1,
+              name: "西塘之南",
+              startDate: "2019-12-02",
+              endDate: "2019-12-07"
+            },
+            {
+              pid: 1,
+              id: "1-5",
+              name: "凤凰之缘",
+              startDate: "2020-01-01",
+              endDate: "2020-01-10"
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: "租房子",
+          startDate: "2019-09-20",
+          endDate: "2019-12-31"
+        }
+      ]
     };
   },
   methods: {
@@ -433,18 +492,21 @@ export default {
       this.select_mode = this.select_mode == "default" ? "tree" : "default";
     },
     // 下拉框选中
-    hindleChanged(val){
-      console.log(val,2)
-      console.log(this.selected)
+    hindleChanged(val) {
+      console.log(val, 2);
+      console.log(this.selected);
     },
     // 切换地址组件模式
     changeAddressMode() {
-      this.address_mode = this.address_mode == "default" 
-        ? "cascader" 
-        : "default"; 
+      this.address_mode =
+        this.address_mode == "default" ? "cascader" : "default";
     },
-    toExplorer(){
-      window.location.href = "./wl-explorer/index.html"
+    toExplorer() {
+      window.location.href = "./wl-explorer/index.html";
+    },
+    // 甘特图时间修改
+    timeChange(row) {
+      console.log(row);
     }
   },
   computed: {
