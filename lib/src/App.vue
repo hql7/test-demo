@@ -5,14 +5,15 @@
     </div>
     <!-- 插件列表 -->
     <div class="item-box">
+      <el-button @click="layout.gantt = true">Gantt甘特图</el-button>
+      <el-button @click="toExplorer">文件管理器网盘</el-button>
+      <el-button @click="layout.bim = true">BIM浏览组件</el-button>
+    </div>
+    <div class="item-box">
       <el-button @click="layout.transfer = true">树形穿梭框</el-button>
-      <el-button @click="toExplorer">文件管理器</el-button>
       <el-button @click="layout.grid = true">树形表格</el-button>
       <el-button @click="layout.select = true">树形下拉框</el-button>
       <el-button @click="layout.address = true">省市县三级联动</el-button>
-    </div>
-    <div class="item-box">
-      <el-button @click="layout.gantt = true">Gantt甘特图</el-button>
     </div>
     <!-- 插件展示区 -->
     <!-- 穿梭框 -->
@@ -102,6 +103,13 @@
         <wlGantt :data="gantt_data" start-date="2019-9-02" end-date="2020-11-24" @timeChange="timeChange"></wlGantt>
       </div>
     </el-dialog>
+    <!-- BIM浏览组件 -->
+    <el-dialog title="BIM浏览组件" :visible.sync="layout.bim" fullscreen>
+      <p class="msg">BIM浏览，cad文件转化浏览器可读文件</p>
+      <div class="align-center">
+        <wl-bim-viewer multiple :docs="bims" class="wl-viewer"></wl-bim-viewer>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -117,7 +125,8 @@ export default {
         grid: false,
         select: false,
         address: false,
-        gantt: false
+        gantt: false,
+        bim: false
       },
       mode: "transfer", // transfer addressList
       fromData: [
@@ -401,6 +410,38 @@ export default {
           startDate: "2019-09-20",
           endDate: "2019-12-31"
         }
+      ],
+      bims: [
+        {
+          name: "urn_model1",
+          path: "bim/1/0.svf",
+          modelObj: null
+        },
+        {
+          name: "urn_model2",
+          path: "bim/2/0.svf",
+          modelObj: null
+        },
+        {
+          name: "urn_model3",
+          path: "bim/3/0.svf",
+          modelObj: null
+        },
+        {
+          name: "urn_model4",
+          path: "bim/4/0.svf",
+          modelObj: null
+        },
+        {
+          name: "urn_model5",
+          path: "bim/6/Sphere.svf",
+          modelObj: null
+        },
+        {
+          name: "urn_model6",
+          path: "bim/6/Sphere.svf",
+          modelObj: null
+        }
       ]
     };
   },
@@ -579,5 +620,12 @@ export default {
 .my-wl-address {
   margin: 160px auto;
   width: 540px;
+}
+
+.wl-viewer{
+  position: absolute;
+  left: 5%;
+  width: 90%;
+  height: 80%;
 }
 </style>

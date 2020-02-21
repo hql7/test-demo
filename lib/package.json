@@ -13,6 +13,8 @@
     "element-ui": "^2.4.5",
     "vue": "^2.6.10",
     "wl-address": "^0.2.1",
+    "wl-bim-viewer": "^0.1.1",
+    "wl-cad-viewer": "^0.1.0",
     "wl-gantt": "^0.1.4",
     "wl-tree-table": "^0.1.7",
     "wl-vue-select": "^0.3.9"
