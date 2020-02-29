@@ -7,6 +7,7 @@
     <div class="item-box">
       <el-button @click="layout.gantt = true">Gantt甘特图</el-button>
       <el-button @click="toExplorer">文件管理器网盘</el-button>
+      <el-button @click="toAdmin">管理系统模板</el-button>
       <el-button @click="layout.bim = true">BIM浏览组件</el-button>
     </div>
     <div class="item-box">
@@ -542,8 +543,13 @@ export default {
       this.address_mode =
         this.address_mode == "default" ? "cascader" : "default";
     },
+    // 打开文件管理器
     toExplorer() {
       window.location.href = "./wl-explorer/index.html";
+    },
+    // 打开管理系统模板
+    toAdmin(){
+      window.location.href = "./wl-admin/index.html";
     },
     // 甘特图时间修改
     timeChange(row) {
